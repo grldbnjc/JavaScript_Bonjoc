@@ -1,0 +1,135 @@
+import { useState } from "react";
+import { Button } from "/components/ui/button";
+
+function ButtonInteractionsDemo() {
+  const [clickCount, setClickCount] = useState(0);
+  const [textInput, setTextInput] = useState("");
+  const [isToggled, setIsToggled] = useState(false);
+  const [displayItems, setDisplayItems] = useState(false);
+  const [progressValue, setProgressValue] = useState(0);
+
+  const handleIncrementClick = () => {
+    setClickCount(prev => prev + 1);
+  };
+
+  const handleTextDisplay = () => {
+    alert(`You entered: ${textInput}`);
+    setTextInput("");
+  };
+
+  const handleToggle = () => {
+    setIsToggled(prev => !prev);
+  };
+
+  const handleShowItems = () => {
+    setDisplayItems(prev => !prev);
+  };
+
+  const handleProgress = () => {
+    if (progressValue < 100) {
+      setProgressValue(prev => prev + 20);
+    } else {
+      setProgressValue(0);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50 p-6 md:p-10">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-3xl font-bold text-center mb-2 text-gray-800">Button Interaction Examples</h1>
+        <p className="text-gray-600 text-center mb-8">
+          Click the buttons below to see different types of responses
+        </p>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Example 1: Counter Button */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">1. Counter Button</h2>
+            <p className="text-gray-700 mb-4">Counts the number of times the button is clicked</p>
+            <div className="flex items-center justify-between">
+              <Button onClick={handleIncrementClick}>
+                Click Me
+              </Button>
+              <span className="text-xl font-bold text-blue-600">{clickCount}</span>
+            </div>
+          </div>
+
+          {/* Example 2: Alert with Input */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">2. Input Display</h2>
+            <p className="text-gray-700 mb-4">Shows your input in an alert box</p>
+            <div className="space-y-4">
+              <input
+                type="text"
+                value={textInput}
+                onChange={(e) => setTextInput(e.target.value)}
+                placeholder="Enter some text"
+                className="w-full p-2 border rounded-md"
+              />
+              <Button onClick={handleTextDisplay} disabled={!textInput.trim()}>
+                Show My Text
+              </Button>
+            </div>
+          </div>
+
+          {/* Example 3: Toggle Button */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">3. Toggle Button</h2>
+            <p className="text-gray-700 mb-4">Toggles between two states</p>
+            <div className="flex flex-col items-center space-y-4">
+              <Button 
+                onClick={handleToggle}
+                variant={isToggled ? "default" : "outline"}
+              >
+                {isToggled ? "ON" : "OFF"}
+              </Button>
+              <div className={`w-16 h-16 rounded-full flex items-center justify-center ${isToggled ? 'bg-green-500' : 'bg-gray-300'}`}>
+                <span className="text-white font-bold">{isToggled ? "ON" : "OFF"}</span>
+              </div>
+            </div>
+          </div>
+
+          {/* Example 4: Show/Hide Items */}
+          <div className="bg-white p-6 rounded-lg shadow-md">
+            <h2 className="text-xl font-semibold mb-4">4. Show/Hide Items</h2>
+            <p className="text-gray-700 mb-4">Reveals or hides content when clicked</p>
+            <div className="space-y-4">
+              <Button onClick={handleShowItems}>
+                {displayItems ? "Hide Items" : "Show Items"}
+              </Button>
+              {displayItems && (
+                <ul className="mt-4 space-y-2">
+                  <li className="p-2 bg-blue-50 rounded-md">Item 1</li>
+                  <li className="p-2 bg-blue-50 rounded-md">Item 2</li>
+                  <li className="p-2 bg-blue-50 rounded-md">Item 3</li>
+                </ul>
+              )}
+            </div>
+          </div>
+
+          {/* Example 5: Progress Button - Using both columns */}
+          <div className="bg-white p-6 rounded-lg shadow-md md:col-span-2">
+            <h2 className="text-xl font-semibold mb-4">5. Progress Indicator</h2>
+            <p className="text-gray-700 mb-4">Increases progress with each click (resets at 100%)</p>
+            <div className="space-y-4">
+              <div className="w-full bg-gray-200 rounded-full h-4">
+                <div 
+                  className="bg-blue-600 h-4 rounded-full transition-all duration-300" 
+                  style={{ width: `${progressValue}%` }}
+                ></div>
+              </div>
+              <div className="flex justify-between items-center">
+                <Button onClick={handleProgress}>
+                  {progressValue < 100 ? "Add Progress" : "Reset Progress"}
+                </Button>
+                <span className="font-medium">{progressValue}%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default ButtonInteractionsDemo;
