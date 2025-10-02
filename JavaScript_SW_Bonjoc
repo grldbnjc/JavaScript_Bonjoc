@@ -1,135 +1,330 @@
-import { useState } from "react";
-import { Button } from "/components/ui/button";
-
-function ButtonInteractionsDemo() {
-  const [clickCount, setClickCount] = useState(0);
-  const [textInput, setTextInput] = useState("");
-  const [isToggled, setIsToggled] = useState(false);
-  const [displayItems, setDisplayItems] = useState(false);
-  const [progressValue, setProgressValue] = useState(0);
-
-  const handleIncrementClick = () => {
-    setClickCount(prev => prev + 1);
-  };
-
-  const handleTextDisplay = () => {
-    alert(`You entered: ${textInput}`);
-    setTextInput("");
-  };
-
-  const handleToggle = () => {
-    setIsToggled(prev => !prev);
-  };
-
-  const handleShowItems = () => {
-    setDisplayItems(prev => !prev);
-  };
-
-  const handleProgress = () => {
-    if (progressValue < 100) {
-      setProgressValue(prev => prev + 20);
-    } else {
-      setProgressValue(0);
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gray-50 p-6 md:p-10">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-3xl font-bold text-center mb-2 text-gray-800">Button Interaction Examples</h1>
-        <p className="text-gray-600 text-center mb-8">
-          Click the buttons below to see different types of responses
-        </p>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Examples for Beginners</title>
+    <style>
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            padding: 20px;
+            margin: 0;
+        }
         
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Example 1: Counter Button */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">1. Counter Button</h2>
-            <p className="text-gray-700 mb-4">Counts the number of times the button is clicked</p>
-            <div className="flex items-center justify-between">
-              <Button onClick={handleIncrementClick}>
-                Click Me
-              </Button>
-              <span className="text-xl font-bold text-blue-600">{clickCount}</span>
-            </div>
-          </div>
-
-          {/* Example 2: Alert with Input */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">2. Input Display</h2>
-            <p className="text-gray-700 mb-4">Shows your input in an alert box</p>
-            <div className="space-y-4">
-              <input
-                type="text"
-                value={textInput}
-                onChange={(e) => setTextInput(e.target.value)}
-                placeholder="Enter some text"
-                className="w-full p-2 border rounded-md"
-              />
-              <Button onClick={handleTextDisplay} disabled={!textInput.trim()}>
-                Show My Text
-              </Button>
-            </div>
-          </div>
-
-          {/* Example 3: Toggle Button */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">3. Toggle Button</h2>
-            <p className="text-gray-700 mb-4">Toggles between two states</p>
-            <div className="flex flex-col items-center space-y-4">
-              <Button 
-                onClick={handleToggle}
-                variant={isToggled ? "default" : "outline"}
-              >
-                {isToggled ? "ON" : "OFF"}
-              </Button>
-              <div className={`w-16 h-16 rounded-full flex items-center justify-center ${isToggled ? 'bg-green-500' : 'bg-gray-300'}`}>
-                <span className="text-white font-bold">{isToggled ? "ON" : "OFF"}</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Example 4: Show/Hide Items */}
-          <div className="bg-white p-6 rounded-lg shadow-md">
-            <h2 className="text-xl font-semibold mb-4">4. Show/Hide Items</h2>
-            <p className="text-gray-700 mb-4">Reveals or hides content when clicked</p>
-            <div className="space-y-4">
-              <Button onClick={handleShowItems}>
-                {displayItems ? "Hide Items" : "Show Items"}
-              </Button>
-              {displayItems && (
-                <ul className="mt-4 space-y-2">
-                  <li className="p-2 bg-blue-50 rounded-md">Item 1</li>
-                  <li className="p-2 bg-blue-50 rounded-md">Item 2</li>
-                  <li className="p-2 bg-blue-50 rounded-md">Item 3</li>
-                </ul>
-              )}
-            </div>
-          </div>
-
-          {/* Example 5: Progress Button - Using both columns */}
-          <div className="bg-white p-6 rounded-lg shadow-md md:col-span-2">
-            <h2 className="text-xl font-semibold mb-4">5. Progress Indicator</h2>
-            <p className="text-gray-700 mb-4">Increases progress with each click (resets at 100%)</p>
-            <div className="space-y-4">
-              <div className="w-full bg-gray-200 rounded-full h-4">
-                <div 
-                  className="bg-blue-600 h-4 rounded-full transition-all duration-300" 
-                  style={{ width: `${progressValue}%` }}
-                ></div>
-              </div>
-              <div className="flex justify-between items-center">
-                <Button onClick={handleProgress}>
-                  {progressValue < 100 ? "Add Progress" : "Reset Progress"}
-                </Button>
-                <span className="font-medium">{progressValue}%</span>
-              </div>
-            </div>
-          </div>
+        .main-container {
+            width: 90%;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border: 1px solid #ccc;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #000;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+        }
+        
+        .example-section {
+            width: 45%;
+            float: left;
+            margin: 10px;
+            padding: 15px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .clear {
+            clear: both;
+        }
+        
+        .wide-section {
+            width: 95%;
+            float: none;
+            margin: 10px auto;
+        }
+        
+        h2 {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        
+        .my-button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            margin: 5px;
+        }
+        
+        .my-button:hover {
+            background-color: #0056b3;
+        }
+        
+        .my-button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .outline-button {
+            background-color: transparent;
+            border: 1px solid #007bff;
+            color: #007bff;
+        }
+        
+        .outline-button:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        
+        .text-input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+        }
+        
+        .counter-display {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007bff;
+            margin-left: 10px;
+        }
+        
+        .toggle-circle {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 60px;
+            font-weight: bold;
+            color: white;
+            margin: 10px auto;
+            display: block;
+        }
+        
+        .toggle-off {
+            background-color: #ccc;
+        }
+        
+        .toggle-on {
+            background-color: #28a745;
+        }
+        
+        .items-list {
+            list-style-type: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+        
+        .item-li {
+            background-color: #e7f3ff;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 4px;
+            border-left: 3px solid #007bff;
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #e9ecef;
+            border-radius: 10px;
+            height: 20px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+        
+        .progress-bar-fill {
+            height: 100%;
+            background-color: #007bff;
+            width: 0%;
+            transition: width 0.3s;
+        }
+        
+        .progress-text {
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .align-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .align-table td {
+            padding: 5px;
+        }
+        
+        .spacing-div {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <h1>Button Interaction Examples</h1>
+        <p class="subtitle">Click the buttons to see what happens. I made this to test buttons!</p>
+        
+        <div class="example-section">
+            <h2>1. Counter Button</h2>
+            <p class="description">This counts how many times you click it.</p>
+            <table class="align-table">
+                <tr>
+                    <td><button class="my-button" onclick="handleCounterClick()">Click Me</button></td>
+                    <td><span class="counter-display" id="counterValue">0</span></td>
+                </tr>
+            </table>
         </div>
-      </div>
+        
+        <div class="example-section">
+            <h2>2. Input Display</h2>
+            <p class="description">Type something and click to see it in a popup.</p>
+            <input type="text" id="userInput" class="text-input" placeholder="Type here..." onkeyup="checkIfInputEmpty()">
+            <div class="spacing-div">
+                <button class="my-button" id="showInputBtn" onclick="showInputInAlert()" disabled>Show My Text</button>
+            </div>
+        </div>
+        
+        <div class="clear"></div>
+        
+        <div class="example-section">
+            <h2>3. Toggle Button</h2>
+            <p class="description">Click to switch between on and off.</p>
+            <button class="my-button outline-button" id="toggleBtn" onclick="handleToggle()">OFF</button>
+            <div class="spacing-div">
+                <div class="toggle-circle toggle-off" id="toggleCircle">OFF</div>
+            </div>
+        </div>
+        
+        <div class="example-section">
+            <h2>4. Show/Hide Items</h2>
+            <p class="description">Click to show or hide the list.</p>
+            <button class="my-button" id="showHideBtn" onclick="handleShowHide()">Show Items</button>
+            <ul id="hiddenList" class="items-list" style="display: none;">
+                <li class="item-li">Item 1</li>
+                <li class="item-li">Item 2</li>
+                <li class="item-li">Item 3</li>
+            </ul>
+        </div>
+        
+        <div class="clear"></div>
+        
+        <div class="example-section wide-section">
+            <h2>5. Progress Indicator</h2>
+            <p class="description">Click to add progress, it resets at 100%.</p>
+            <div class="progress-container">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
+            <table class="align-table">
+                <tr>
+                    <td><button class="my-button" id="progressBtn" onclick="handleProgress()">Add Progress</button></td>
+                    <td><span class="progress-text" id="progressValue">0%</span></td>
+                </tr>
+            </table>
+        </div>
     </div>
-  );
-}
 
-export default ButtonInteractionsDemo;
+    <script>
+        var counter = 0;
+        var toggleState = false;
+        var showItems = false;
+        var progress = 0;
+        
+        function handleCounterClick() {
+            counter = counter + 1;
+            var counterElement = document.getElementById('counterValue');
+            counterElement.innerHTML = counter;
+        }
+        
+        function checkIfInputEmpty() {
+            var inputValue = document.getElementById('userInput').value;
+            var button = document.getElementById('showInputBtn');
+            if (inputValue.trim() === '') {
+                button.disabled = true;
+            } else {
+                button.disabled = false;
+            }
+        }
+        
+        function showInputInAlert() {
+            var inputText = document.getElementById('userInput').value;
+            alert('You entered: ' + inputText);
+            document.getElementById('userInput').value = '';
+            document.getElementById('showInputBtn').disabled = true;
+        }
+        
+        function handleToggle() {
+            toggleState = !toggleState;
+            var button = document.getElementById('toggleBtn');
+            var circle = document.getElementById('toggleCircle');
+            
+            if (toggleState === true) {
+                button.innerHTML = 'ON';
+                button.className = 'my-button';
+                circle.innerHTML = 'ON';
+                circle.className = 'toggle-circle toggle-on';
+            } else {
+                button.innerHTML = 'OFF';
+                button.className = 'my-button outline-button';
+                circle.innerHTML = 'OFF';
+                circle.className = 'toggle-circle toggle-off';
+            }
+        }
+        
+        function handleShowHide() {
+            showItems = !showItems;
+            var button = document.getElementById('showHideBtn');
+            var list = document.getElementById('hiddenList');
+            
+            if (showItems === true) {
+                button.innerHTML = 'Hide Items';
+                list.style.display = 'block';
+            } else {
+                button.innerHTML = 'Show Items';
+                list.style.display = 'none';
+            }
+        }
+        
+        function handleProgress() {
+            if (progress < 100) {
+                progress = progress + 20;
+            } else {
+                progress = 0;
+            }
+            
+            var bar = document.getElementById('progressBar');
+            bar.style.width = progress + '%';
+            
+            var text = document.getElementById('progressValue');
+            text.innerHTML = progress + '%';
+            
+            var btn = document.getElementById('progressBtn');
+            if (progress < 100) {
+                btn.innerHTML = 'Add Progress';
+            } else {
+                btn.innerHTML = 'Reset Progress';
+            }
+        }
+    </script>
+</body>
+</html>
